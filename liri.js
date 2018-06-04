@@ -3,24 +3,45 @@ var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
 var keys = require("./keys");
 var request = require('request');
+const readline = require("readline");
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 var fs = require("fs");
 
 var spotify = new Spotify(keys.spotify);
 
 var client = new Twitter(keys.twitter);
 
-var my_Tweets = function () {
+var get_Tweets = function (handleName) {
+var allTweets = [];
   var params = {
-    screen_name: '@UnderoathBand',
-    count: "20"
+    screen_name: "@" + handleName,
+    count: "50"
   };
   client.get('statuses/user_timeline', params, function (error, tweets, response) {
     if (!error) {
       for(var i =0; i< 10; i++){
-      console.log(tweets[i].favorite_count);
-      console.log(tweets[i].text);
+        allTweets.push(tweets[i]);
+      console.log(i+1);
+      console.log("Num of Favorites: " + tweets[i].favorite_count);
+      console.log("Text from Tweet" + tweets[i].text);
       console.log("============");
+      // console.log(allTweets[i]);
+
       }
+      function compare(a,b) {
+        if (a.favorite_count > b.favorite_count)
+          return -1;
+        if (a.favorite_count < b.favorite_count)
+          return 1;
+        return 0;
+      }
+      allTweets.sort(compare);
+      console.log("Tweet with the most favorites:")
+      console.log("Text from tweet: " + allTweets[0].text);
+      console.log("Num of favorites: " + allTweets[0].favorite_count);
       // console.log(tweets[0].created_at);
     }
   });
@@ -140,8 +161,16 @@ var doWwhatItSays = function () {
 
 }
 
-if (process.argv[2] == "my_Tweets") {
-  my_Tweets();
+if (process.argv[2] == "get_Tweets") {
+  
+  var handleName;
+  rl.question(' Type the twitter handle name ', function (handleName){
+    // TODO: Log the answer in a database
+  
+    rl.close();
+  
+  get_Tweets(handleName);
+  })
 }
 
 if (process.argv[2] == "spotify-this-song") {
