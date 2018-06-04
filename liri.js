@@ -1,5 +1,3 @@
-
-
 require("dotenv").config();
 var Twitter = require('twitter');
 var Spotify = require('node-spotify-api');
@@ -13,13 +11,17 @@ var client = new Twitter(keys.twitter);
 
 var my_Tweets = function () {
   var params = {
-    screen_name: '@ricksNode',
+    screen_name: '@UnderoathBand',
     count: "20"
   };
   client.get('statuses/user_timeline', params, function (error, tweets, response) {
     if (!error) {
-      console.log(tweets[0].text);
-      console.log(tweets[0].created_at);
+      for(var i =0; i< 10; i++){
+      console.log(tweets[i].favorite_count);
+      console.log(tweets[i].text);
+      console.log("============");
+      }
+      // console.log(tweets[0].created_at);
     }
   });
 }
@@ -51,19 +53,34 @@ var spotify_this_song = function (songTitle)
     spotify.search({
       type: 'track',
       query: songTitle,
-      count: 4
+      count: 10
     }, function (err, data) {
       if (err) {
         return console.log('Error occurred: ' + err);
       }
-      console.log(data.tracks.items[0].artists[0].name);
+      else{
+     
+      for(var i = 0; i < 10; i++)
+      {
+        
+        if(data.tracks.items[i] == undefined)
+        {
+          break;
+        }
+        else{
+        console.log(i);
+        
+      console.log("Artist Name: " + data.tracks.items[i].artists[0].name);
+     
+      console.log("Track name: " + data.tracks.items[i].name);
+     
+      console.log("Album name: " + data.tracks.items[i].album.name);
+      
+      console.log("Song url link: " + data.tracks.items[i].preview_url);
       console.log("======================");
-      console.log(data.tracks.items[0].name);
-      console.log("======================");
-      console.log(data.tracks.items[0].album.name);
-      console.log("======================");
-      console.log(data.tracks.items[0].preview_url);
-
+        }
+      }
+    }
 
     });
 
@@ -122,6 +139,7 @@ var doWwhatItSays = function () {
 
 
 }
+
 if (process.argv[2] == "my_Tweets") {
   my_Tweets();
 }
@@ -129,6 +147,15 @@ if (process.argv[2] == "my_Tweets") {
 if (process.argv[2] == "spotify-this-song") {
 
   var songName = process.argv[3];
+  var count = 4;
+  while(process.argv[count] != null)
+  {
+    songName = songName + " " + process.argv[count];
+    
+    // console.log(process.argv[count]);
+    count++;
+  }
+  // console.log(songName);
   spotify_this_song(songName);
 }
 
