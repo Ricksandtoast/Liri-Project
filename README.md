@@ -3,7 +3,7 @@
 LIRI is a Language Interpretation and Recognition Interface. LIRI is a command line node app that takes in parameters and gives you back spotify, twitter, or movie data.
 
 
-There are 3 commands in the LIRI bot.
+There are 4 commands in the LIRI bot.
 1) The first one is spotify-this-song which will return back a maximum of 10 artists who have written a song with that name.
 
 ![](https://i.imgur.com/TGyVuAE.gif)
@@ -12,7 +12,13 @@ There are 3 commands in the LIRI bot.
 
 ![](https://i.imgur.com/0GSr1gn.gif)
 
-3)
+3) The third command is called movie. Type the name of the movie will return the title of the name the rating country language plot and the actors.
+
+![](https://i.imgur.com/hDeLhXq.gif)
+
+4) The final command is do-what-it-says. This reads text and will run the command in the text file. In this example the command is movie and the query is Star Wars Episode IV.
+
+![](https://i.imgur.com/CvtNyAL.gif)
 
 Download node Js 8.11
 To retrieve the appropriate data you will need to send requests to Twitter, Spotify, and OMdb.
@@ -28,6 +34,7 @@ Install these node packages using the Node Package Manager
   
     Navigate to the root directory of the Liri project and run NPM init -y in your console
     this will create your package.json file
+    Then run npm install twitter node-spotify-api request readline
     
  Create a .env file and add the following. Reaplce the values with your API keys
  
